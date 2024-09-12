@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import Layout from "@/components/Layout";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/utils/motion";
+import UserInfoDiv from "@/components/UserInfoDiv";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,8 +24,9 @@ export default function Home() {
           whileInView="show"
           className="fixed top-[50px] right-[200px]"
         >
-          <img src="2.png" alt="nike" className="w-[400px]" />
+          <img src="2.png" alt="nike" className="w-[400px] scale-x-[-1]" />
         </motion.div>
+        <UserInfoDiv />
       </div>
     </Layout>
   );
