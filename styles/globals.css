@@ -21,7 +21,12 @@ body {
 button {
   @apply rounded-md px-3 py-2 transition delay-150 duration-300 hover:scale-105 flex gap-2 items-center shadow-md whitespace-nowrap;
 }
-
+button.primary {
+  @apply bg-primary text-white;
+}
+button.secondary {
+  @apply bg-white text-primary border-2 border-primary;
+}
 input,
 textarea,
 select {
@@ -47,4 +52,7 @@ label {
 ::-webkit-scrollbar-thumb {
   background: var(--primary);
   border-radius: 20px;
+}
+.full {
+  min-height: calc(100vh - 60px);
 }
