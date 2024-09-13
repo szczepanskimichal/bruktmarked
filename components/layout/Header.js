@@ -6,21 +6,21 @@ import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import CartIcon from "../icons/CartIcon";
 import SearchButton from "../buttons/SearchButton";
+import UserButton from "../buttons/UserButton";
+
 const links = ["Link1", "Link2", "Link3", "Link4"];
 
 const Header = () => {
   const inactiveLink =
     "hover:text-primary cursor-pointer hover:scale-105 hover:decoration-primary decoration-color-800 underline underline-offset-4 transition-all delay-150 duration-300";
   const activeLink = inactiveLink.replace(
-    "decoration-color-80x0",
+    "decoration-color-800",
     "decoration-white"
   );
 
   const [navOpen, setNavOpen] = useState(false);
-
   const router = useRouter();
   const pathname = usePathname();
-
   return (
     <>
       <header className="fixed top-0 w-full hidden lg:flex justify-around h-[60px] items-center bg-color-800 text-white z-[10] shadow-xl">
@@ -43,7 +43,7 @@ const Header = () => {
         </nav>
         <nav className="flex gap-10 items-center">
           <SearchButton />
-          {/* <UserButton /> */}
+          <UserButton />
           <Link href={"/cart"} className="group">
             <div className="flex items-center h-[60px] relative transition-all delay-150 duration-300 group-hover:text-primary">
               <CartIcon className="size-7" />
@@ -130,5 +130,4 @@ const Header = () => {
     </>
   );
 };
-
 export default Header;
