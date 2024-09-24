@@ -1,5 +1,5 @@
 import clientPromise from "@/lib/mongodb";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import { User } from "@/models/User";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
