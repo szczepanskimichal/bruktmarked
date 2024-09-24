@@ -2,11 +2,14 @@ import { Inter } from "next/font/google";
 import Layout from "@/components/layout/Layout";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/utils/motion";
-import UserInfoDiv from "@/components/layout/UserInfoDiv";
+import UserInfoDiv from "@/components/layout/UserIndexDiv";
+import { useSession } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const session = useSession();
+
   return (
     <Layout>
       <div className="w-full h-full flex justify-center items-center">
@@ -26,7 +29,7 @@ export default function Home() {
         >
           <img src="2.png" alt="nike" className="w-[400px] scale-x-[-1]" />
         </motion.div>
-        <UserInfoDiv />
+        <UserInfoDiv user={session?.data?.user} />
       </div>
     </Layout>
   );
