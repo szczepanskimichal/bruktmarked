@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import Layout from "@/components/layout/Layout";
 import { fadeIn } from "@/utils/motion";
 import { motion } from "framer-motion";
@@ -6,6 +7,8 @@ import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import FormInput from "@/components/inputs/FormInput";
+import { set } from "mongoose";
+import toast from "react-hot-toast";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -16,6 +19,8 @@ export default function RegisterPage() {
   const [password2Error, setPassword2Error] = useState(null);
 
   const [creatingUser, setCreatingUser] = useState(false); // Prevents multiple submissions
+
+  const router = useRouter();
 
   useEffect(() => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // wchodzi na kazda koncowke
@@ -54,6 +59,39 @@ export default function RegisterPage() {
     }
   }, [password, password2]);
 
+  async function handleFormSubmit(e) {
+    e.preventDefault();
+    setCreatingUser(true);
+    if (!emailError && !passwordError && !password2Error) {
+      try {
+        const response = await axios.post("/api/register", {
+          email,
+          password,
+        });
+        // Success message and redirect
+        toast.success(`User ${response.data.email} has been created!`);
+        router.push("/login");
+      } catch (error) {
+        // Check for response error
+        if (error) {
+          toast.error(error.response?.data.error);
+          {
+            toast.error(error.response.data.error);
+          }
+        } else {
+          toast.error("An error occured. Please try again.");
+        }
+      }
+      setCreatingUser(false);
+      setEmailError(null);
+      setPasswordError(null);
+      setPassword2Error(null);
+    } else {
+      toast.error("Please check your input.");
+      //   setCreatingUser(false);
+    }
+  }
+
   return (
     <Layout>
       <div className="flex justify-center items-center h-full">
@@ -62,6 +100,7 @@ export default function RegisterPage() {
           initial="hidden"
           whileInView="show"
           className="box p-4 w-[25rem]"
+          onSubmit={handleFormSubmit}
         >
           <FormInput
             type="email"
