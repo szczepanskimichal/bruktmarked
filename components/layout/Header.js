@@ -8,8 +8,6 @@ import CartIcon from "../icons/CartIcon";
 import SearchButton from "../buttons/SearchButton";
 import UserButton from "../buttons/UserButton";
 
-const links = ["Link1", "Link2", "Link3", "Link4"];
-
 const Header = () => {
   const inactiveLink =
     "hover:text-primary cursor-pointer hover:scale-105 hover:decoration-primary decoration-color-800 underline underline-offset-4 transition-all delay-150 duration-300";

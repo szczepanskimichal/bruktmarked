@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { fadeIn } from "@/utils/motion";
 import IndexButton from "../buttons/IndexButton";
-
 export default function UserIndexDiv({ user }) {
+  // const user = 123;
   return (
     <motion.div
       variants={fadeIn("down", "spring", 0.1, 1)}
