@@ -34,7 +34,7 @@ const Header = () => {
           <Link
             className={`
 							${pathname.includes("products") ? activeLink : inactiveLink}`}
-            href={"/"}
+            href={"/products"}
           >
             All products
           </Link>
