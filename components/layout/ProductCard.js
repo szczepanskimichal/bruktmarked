@@ -2,8 +2,8 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaRegHeart } from "react-icons/fa";
 import CartIcon from "../icons/CartIcon";
-// import EditIcon from "../icons/EditIcon";
-// import DeleteIcon from "../icons/DeleteIcon";
+import EditIcon from "../icons/EditIcon";
+import DeleteIcon from "../icons/DeleteIcon";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/utils/motion";
 
@@ -60,11 +60,11 @@ export default function ProductCard({
             <div className="flex gap-3 items-center">
               <Link href={"/products/edit/" + _id}>
                 <button className="text-white bg-gray-500">
-                  {/* <EditIcon className="size-5" /> */}
+                  <EditIcon className="size-5" />
                 </button>
               </Link>
               <button className="text-white bg-red-500">
-                {/* <DeleteIcon className="size-5" /> */}
+                <DeleteIcon className="size-5" />
               </button>
             </div>
           )}
