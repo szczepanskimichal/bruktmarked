@@ -36,13 +36,29 @@ export const authOptions = {
         await mongooseConnect();
         const user = await User.findOne({ email });
         if (user && bcrypt.compareSync(password, user.password)) {
-          return user;
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: user.name,
+          };
         } else {
           return null;
         }
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.id;
+      return session;
+    },
+  },
 };
 
 export default NextAuth(authOptions);
