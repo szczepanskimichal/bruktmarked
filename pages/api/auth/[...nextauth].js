@@ -48,6 +48,7 @@ export const authOptions = {
     }),
   ],
   callbacks: {
+    // logowanie
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;

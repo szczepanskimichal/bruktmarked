@@ -3,6 +3,7 @@ import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import multiparty from "multiparty";
 import fs from "fs";
 import mime from "mime-types";
+
 const bucket = "ecommerce2-michal";
 export default async function handle(req, res) {
   await mongooseConnect();

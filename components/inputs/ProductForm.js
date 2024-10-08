@@ -35,26 +35,31 @@ export default function ProductForm({
 
   const router = useRouter();
   const session = useSession();
+
   useEffect(() => {
     fetchCategories();
     fetchColors();
     fetchSizes();
   }, []);
+
   function fetchCategories() {
     axios.get("/api/categories").then((response) => {
       setCategories(response.data);
     });
   }
+
   function fetchColors() {
     axios.get("/api/colors").then((response) => {
       setColors(response.data);
     });
   }
+
   function fetchSizes() {
     axios.get("/api/sizes").then((response) => {
       setSizes(response.data);
     });
   }
+
   async function saveProduct(e) {
     e.preventDefault();
     if (session.status === "authenticated") {
@@ -84,6 +89,7 @@ export default function ProductForm({
       toast.error("Authenticate to add a product.");
     }
   }
+
   return (
     <motion.form
       onSubmit={saveProduct}
