@@ -16,6 +16,7 @@ import DeleteIcon from "@/components/icons/DeleteIcon";
 import EditIcon from "@/components/icons/EditIcon";
 import Link from "next/link";
 import { format } from "date-fns"; // wyswietlanie daty, pamietaj o instalowaniu paczki - posted & updated on
+import ProductImages from "@/components/layout/ProductImages";
 
 export default function ProductPage({ product, category, color, size, user }) {
   const session = useSession();
@@ -23,7 +24,7 @@ export default function ProductPage({ product, category, color, size, user }) {
     <Layout>
       <div className="flex flex-col items-center ">
         <div
-          className="w-full lg:w-[80&] flex flex-col items-center items-start justify-center md:grid
+          className="w-full lg:w-[80%] flex flex-col items-center items-start justify-center md:grid
         grid-cols-2 gap-10 md:px-5 xl:p-10 mb-5 "
         >
           <motion.div // tutaj beda wyswietlane zdjecia produktu
@@ -32,10 +33,7 @@ export default function ProductPage({ product, category, color, size, user }) {
             whileInView="show"
             className="w-full box p-5 "
           >
-            <img
-              src="https://images.eatthismuch.com/img/207909_tabitharwheeler_db2162f4-e020-4ba7-aa63-9f982c258588.jpg"
-              alt=""
-            />
+            <ProductImages images={product.images} />
           </motion.div>
           <motion.div
             variants={fadeIn("left", "spring", 0.3, 1)}
