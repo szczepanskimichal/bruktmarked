@@ -8,7 +8,7 @@ export default function EditProductPage({ product }) {
 export async function getServerSideProps(context) {
   await mongooseConnect();
   const { id } = context.params;
-  const product = await Product.findById({ _id: id });
+  const product = await Product.findById(id);
 
   return {
     props: {
