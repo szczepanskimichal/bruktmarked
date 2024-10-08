@@ -7,7 +7,7 @@ import { Category } from "@/models/Category";
 import { Color } from "@/models/Color";
 import { Size } from "@/models/Size";
 import { User } from "@/models/User";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { fadeIn } from "@/utils/motion";
 import { useSession } from "next-auth/react";
 import CartIcon from "@/components/icons/CartIcon";
@@ -17,122 +17,166 @@ import EditIcon from "@/components/icons/EditIcon";
 import Link from "next/link";
 import { format } from "date-fns"; // wyswietlanie daty, pamietaj o instalowaniu paczki - posted & updated on
 import ProductImages from "@/components/layout/ProductImages";
+import Backdrop from "@/components/Backdrop";
+import { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 export default function ProductPage({ product, category, color, size, user }) {
+  const [confirm, setConfirm] = useState(false);
+
+  const router = useRouter();
   const session = useSession();
+
+  async function handleDelete() {
+    await axios.delete("/api/products/?id=" + product._id);
+    toast.success("Product deleted successfully!");
+    setConfirm(false);
+    router.push("/products");
+  }
+
   return (
-    <Layout>
-      <div className="flex flex-col items-center ">
-        <div
-          className="w-full lg:w-[80%] flex flex-col items-center items-start justify-center md:grid
+    <>
+      <AnimatePresence>
+        {confirm && (
+          <Backdrop handleClose={() => setConfirm(false)}>
+            <h3>Are you sure you want to delete this product?</h3>
+            <div className="flex gap-3 justify-center">
+              <button onClick={handleDelete} className="delete">
+                Yes, delete!
+              </button>
+              <button onClick={() => setConfirm(false)} className="cancel">
+                No, cancel.
+              </button>
+            </div>
+          </Backdrop>
+        )}
+      </AnimatePresence>
+      <Layout>
+        <div className="flex flex-col items-center ">
+          <div
+            className="w-full lg:w-[80%] flex flex-col items-center items-start justify-center md:grid
         grid-cols-2 gap-10 md:px-5 xl:p-10 mb-5 "
-        >
-          <motion.div // tutaj beda wyswietlane zdjecia produktu
-            variants={fadeIn("right", "spring", 0.1, 1)}
-            initial="hidden"
-            whileInView="show"
-            className="w-full box p-5 "
           >
-            <ProductImages images={product.images} />
-          </motion.div>
-          <motion.div
-            variants={fadeIn("left", "spring", 0.3, 1)}
-            initial="hidden"
-            whileInView="show"
-            className="p-5 bg-white/20 rounded-xl flex flex-col items-start justify-between w-full h-full gap-5"
-          >
-            <div className="flex flex-col gap-2 items-start w-full">
-              <h3 className="text-3xl mb-0 text-color-800">{product.title}</h3>
-              <h3 className="mb-0 font-normal">USD ${product.price}</h3>
-              <hr className="my-3 border-color-600 w-full" />
-              <div className="flex w-full mb-3 gap-3 justify-between">
-                <div className="flex-1">
-                  <label>Category</label>
-                  <div className="flex gap-3 mt-1">
-                    <div className="bg-white py-2 px-4 whitespace-nowrap rounded-md shadow-md text-color-700 w-full">
-                      {category?.name || "No category"}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <label>Usage</label>
-                  <div className="flex gap-3 mt-1">
-                    <div className="bg-white py-2 px-4 rounded-md shadow-md text-color-700 w-full">
-                      {product.used ? "Used" : "New"}
-                    </div>
-                  </div>
-                </div>
-                {color && (
+            <motion.div // tutaj beda wyswietlane zdjecia produktu
+              variants={fadeIn("right", "spring", 0.1, 1)}
+              initial="hidden"
+              whileInView="show"
+              className="w-full box p-5 "
+            >
+              <ProductImages images={product.images} />
+            </motion.div>
+            <motion.div
+              variants={fadeIn("left", "spring", 0.3, 1)}
+              initial="hidden"
+              whileInView="show"
+              className="p-5 bg-white/20 rounded-xl flex flex-col items-start justify-between w-full h-full gap-5"
+            >
+              <div className="flex flex-col gap-2 items-start w-full">
+                <h3 className="text-3xl mb-0 text-color-800">
+                  {product.title}
+                </h3>
+                <h3 className="mb-0 font-normal">USD ${product.price}</h3>
+                <hr className="my-3 border-color-600 w-full" />
+                <div className="flex w-full mb-3 gap-3 justify-between">
                   <div className="flex-1">
-                    <label>Color</label>
+                    <label>Category</label>
                     <div className="flex gap-3 mt-1">
-                      <div className="bg-white py-2 px-4 rounded-md flex gap-2 items-center justify-between shadow-md text-color-700 w-full">
-                        <div
-                          style={{ backgroundColor: `#${color.value}` }}
-                          className="rounded-full size-5"
-                        ></div>
-                        {color.name}
+                      <div className="bg-white py-2 px-4 whitespace-nowrap rounded-md shadow-md text-color-700 w-full">
+                        {category?.name || "No category"}
                       </div>
                     </div>
                   </div>
-                )}
-                {size && (
                   <div className="flex-1">
-                    <label>Color</label>
+                    <label>Usage</label>
                     <div className="flex gap-3 mt-1">
                       <div className="bg-white py-2 px-4 rounded-md shadow-md text-color-700 w-full">
-                        {size.name}
+                        {product.used ? "Used" : "New"}
                       </div>
                     </div>
                   </div>
+                  {color && (
+                    <div className="flex-1">
+                      <label>Color</label>
+                      <div className="flex gap-3 mt-1">
+                        <div className="bg-white py-2 px-4 rounded-md flex gap-2 items-center justify-between shadow-md text-color-700 w-full">
+                          <div
+                            style={{ backgroundColor: `#${color.value}` }}
+                            className="rounded-full size-5"
+                          ></div>
+                          {color.name}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {size && (
+                    <div className="flex-1">
+                      <label>Color</label>
+                      <div className="flex gap-3 mt-1">
+                        <div className="bg-white py-2 px-4 rounded-md shadow-md text-color-700 w-full">
+                          {size.name}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {session?.data?.user.id !== user._id && (
+                  <button className="primary" onClick={() => {}}>
+                    <CartIcon className="size-7" />
+                    Add to Cart
+                  </button>
                 )}
               </div>
-              {session?.data?.user.id !== user._id && (
-                <button className="primary" onClick={() => {}}>
-                  <CartIcon className="size-7" />
-                  Add to Cart
-                </button>
-              )}
-            </div>
-            <div>
-              {session.status === "authenticated" &&
-              session?.data?.user.id === user._id ? (
-                <div className="flex gap-3 mb-3">
-                  <Link href={"/products/edit/" + product._id}>
-                    <button className="text-white bg-gray-500">
-                      <EditIcon className="size-4" />
-                      Edit
+              <div>
+                {session.status === "authenticated" &&
+                session?.data?.user.id === user._id ? (
+                  <div className="flex gap-3 mb-3">
+                    <Link href={"/products/edit/" + product._id}>
+                      <button className="cancel">
+                        <EditIcon className="size-4" />
+                        Edit
+                      </button>
+                    </Link>
+                    <button onClick={() => setConfirm(true)} className="delete">
+                      <DeleteIcon
+                        onClick={() => setConfirm(true)}
+                        className="size-4"
+                      />
+                      Delete
                     </button>
-                  </Link>
-                  <button className="text-white bg-red-500">
-                    <DeleteIcon className="size-4" />
-                    Delete
-                  </button>
-                </div>
-              ) : (
+                  </div>
+                ) : (
+                  <div className="flex flex-col sm:flex-row gap-x-2 sm:items-center text-color-800 text-sm sm:text-normal">
+                    Listed by:{" "}
+                    <span className="text-black underline">{user?.email}</span>
+                  </div>
+                )}
                 <div className="flex flex-col sm:flex-row gap-x-2 sm:items-center text-color-800 text-sm sm:text-normal">
-                  Listed by:{" "}
-                  <span className="text-black underline">{user?.email}</span>
+                  Product posted on:
+                  <span className="text-black">
+                    {format(
+                      new Date(product.createdAt),
+                      "dd/MM/yyyy, h:mm:ss a"
+                    )}
+                  </span>
                 </div>
-              )}
-              <div className="flex flex-col sm:flex-row gap-x-2 sm:items-center text-color-800 text-sm sm:text-normal">
-                Product posted on:{" "}
-                <span className="text-black">
-                  {format(new Date(product.createdAt), "dd/MM/yyyy, h:mm:ss a")}
-                </span>
+                <div className="flex flex-col sm:flex-row gap-x-2 sm:items-center text-color-800 text-sm sm:text-normal">
+                  Product recently updated on:
+                  <span className="text-black">
+                    {format(
+                      new Date(product.updatedAt),
+                      "dd/MM/yyyy, h:mm:ss a"
+                    )}
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-col sm:flex-row gap-x-2 sm:items-center text-color-800 text-sm sm:text-normal">
-                Product recently updated on:{" "}
-                <span className="text-black">
-                  {format(new Date(product.updatedAt), "dd/MM/yyyy, h:mm:ss a")}
-                </span>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
+          <DetailsTabs product={product} />
         </div>
-        <DetailsTabs product={product} />
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 }
 //najpierw napisalem sobie funkcje GetServerSideProps, ktora zwraca propsy, ktore sa przekazywane do komponentu, pozniej do tworzenia frontu

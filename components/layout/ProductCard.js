@@ -10,6 +10,7 @@ import { fadeIn } from "@/utils/motion";
 export default function ProductCard({
   _id,
   title,
+  setConfirm,
   category,
   images,
   price,
@@ -61,11 +62,11 @@ export default function ProductCard({
             // jesli jestesm zalogowany i jestem wlascicielem produktu
             <div className="flex gap-3 items-center">
               <Link href={"/products/edit/" + _id}>
-                <button className="text-white bg-gray-500">
+                <button className="cancel">
                   <EditIcon className="size-5" />
                 </button>
               </Link>
-              <button className="text-white bg-red-500">
+              <button onClick={() => setConfirm(true)} className="delete">
                 <DeleteIcon className="size-5" />
               </button>
             </div>

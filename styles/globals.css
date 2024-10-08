@@ -37,6 +37,12 @@ button.primary {
 button.secondary {
   @apply bg-white text-primary border-2 border-primary;
 }
+button.delete {
+  @apply bg-red-500 text-white border-primary;
+}
+button.cancel {
+  @apply bg-gray-500 text-white;
+}
 
 input,
 textarea,
