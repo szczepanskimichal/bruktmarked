@@ -1,11 +1,8 @@
-import { Inter } from "next/font/google";
 import Layout from "@/components/layout/Layout";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/utils/motion";
 import UserInfoDiv from "@/components/layout/UserIndexDiv";
 import { useSession } from "next-auth/react";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const session = useSession();
