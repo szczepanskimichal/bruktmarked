@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import ImageInput from "./ImageInput";
 import EditableImage from "./EditableImage";
 
 export default function UserForm({ user, onSubmit, setFullImage }) {
@@ -34,7 +33,7 @@ export default function UserForm({ user, onSubmit, setFullImage }) {
     >
       <div className="flex justify-center">
         {pathname.includes("account") && (
-          <ImageInput
+          <EditableImage
             image={image}
             setImage={setImage}
             setFullImage={setFullImage}

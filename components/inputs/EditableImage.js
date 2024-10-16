@@ -2,7 +2,7 @@ import { useState } from "react";
 import UserIcon from "../icons/UserIcon";
 
 export default function EditableImage({ image, setImage, setFullImage }) {
-  async function handlerFileChange(e) {}
+  async function handleFileChange(e) {}
 
   return (
     <div className="p-2 inline-flex items-center flex-col gap-2">
@@ -27,6 +27,7 @@ export default function EditableImage({ image, setImage, setFullImage }) {
           className="hidden"
           onChange={() => {}}
         />
+        <span>Edit</span>
       </label>
     </div>
   );
