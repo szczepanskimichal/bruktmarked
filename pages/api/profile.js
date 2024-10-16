@@ -1,10 +1,11 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import { User } from "@/models/User";
+import { UserInfo } from "@/models/UserInfo";
+import { getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
 import { authOptions } from "./auth/[...nextauth]";
-import { userInfo } from "os";
 
-export default async function handler(req, res) {
+export default async function handle(req, res) {
   await mongooseConnect();
 
   if (req.method === "GET") {
@@ -13,15 +14,16 @@ export default async function handler(req, res) {
     if (!email) {
       res.json({});
     }
+
     const user = await User.findOne({ email }).lean();
     const userInfo = await UserInfo.findOne({ email }).lean();
 
     return res.json({ ...user, ...userInfo });
   }
 
-  if (method === "PUT") {
-    const session = await getSession(req, res, authOptions);
-    const email = session?.user?.email;
+  if (req.method === "PUT") {
+    const session = await getServerSession(req, res, authOptions);
+    const email = session.user.email;
     const { name, image, ...userInfo } = req.body;
 
     await User.updateOne({ email }, { name, image });

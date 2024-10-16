@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Backdrop from "../Backdrop";
 import UserIcon from "../icons/UserIcon";
 
 export default function EditableImage({ image, setImage, setFullImage }) {
@@ -9,12 +8,14 @@ export default function EditableImage({ image, setImage, setFullImage }) {
     <div className="p-2 inline-flex items-center flex-col gap-2">
       <div className="rounded-full flex items-center justify-center bg-white/50 p-1 size-[120px] shadow-lg">
         {image ? (
-          <img
-            src={image}
-            alt=""
-            className="w-full h-full object-cover rounded-full cursor-pointer"
-            onClick={() => setFullImage(true)}
-          />
+          <>
+            <img
+              src={image}
+              alt=""
+              className="w-full h-full object-cover rounded-full cursor-pointer"
+              onClick={() => setFullImage(true)}
+            />
+          </>
         ) : (
           <UserIcon className="text-color-800" />
         )}
