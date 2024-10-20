@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import EditableImage from "./EditableImage";
+import path from "path";
 
 export default function UserForm({ user, onSubmit, setFullImage }) {
   const [userName, setUserName] = useState(user?.name || "");
@@ -40,7 +41,40 @@ export default function UserForm({ user, onSubmit, setFullImage }) {
           />
         )}
       </div>
-      <div></div>
+      <div>
+        <label>Name:</label>
+        <input
+          type="text"
+          placeholder="e.g. John Doe"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <label>Email:</label>
+        {pathname.includes("account") && (
+          <input type="email" value={user?.email} disabled />
+        )}
+        {pathname.includes("cart") && (
+          <input
+            type="email"
+            placeholder="e.g. johndoe@example.com"
+            value={email}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+        )}
+
+        <label>Telepohone:</label>
+        <input
+          type="tel"
+          placeholder="e.g. 123 456 789"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+        {pathname.includes("account") && (
+          <button type="submit" className="mt-3 primary hidden sm:flex">
+            Save all changes
+          </button>
+        )}
+      </div>
     </form>
   );
 }

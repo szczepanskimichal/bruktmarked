@@ -1,8 +1,36 @@
 import { useState } from "react";
 import UserIcon from "../icons/UserIcon";
+import toast from "react-hot-toast";
 
 export default function EditableImage({ image, setImage, setFullImage }) {
-  async function handleFileChange(e) {}
+  async function handleFileChange(e) {
+    const files = e.target?.files;
+
+    if (files.length === 1) {
+      const data = new FormData();
+      data.set("file", files[0]);
+
+      if (!files[0].type.startsWith("image/")) {
+        toast.error("Please select an image");
+        return;
+      }
+
+      const uploadPromise = fetch("/api/upload", {
+        method: "POST",
+        body: data,
+      }).then((response) => {
+        if (response.ok) {
+          return response.json().then((object) => setImage(object.links[0]));
+        }
+        throw new Error("Something went wrong");
+      });
+    }
+    await toast.promise(uploadPromise, {
+      loading: "Uploading...",
+      success: "Image uploaded!",
+      error: "Failed to upload image",
+    });
+  }
 
   return (
     <div className="p-2 inline-flex items-center flex-col gap-2">
@@ -25,7 +53,7 @@ export default function EditableImage({ image, setImage, setFullImage }) {
           type="file"
           accept="image/*"
           className="hidden"
-          onChange={() => {}}
+          onChange={handleFileChange}
         />
         <span>Edit</span>
       </label>
