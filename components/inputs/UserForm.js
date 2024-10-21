@@ -75,6 +75,58 @@ export default function UserForm({ user, onSubmit, setFullImage }) {
           </button>
         )}
       </div>
+      <div className="mt-3 sm:mt-0">
+        <div className="md:flex gap-5">
+          <div className="flex-1">
+            <label>City</label>
+            <input
+              type="text"
+              placeholder="e.g. New York"
+              value={postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+            />
+          </div>
+          <div className="flex-1">
+            <label>Postal Code</label>
+            <input
+              type="text"
+              placeholder="e.g. 12-345"
+              value={postalCode}
+              onChange={(e) => setPostalCode(e.target.value)}
+            />
+          </div>
+        </div>
+        <label>Street Address:</label>
+        <input
+          type="text"
+          placeholder="e.g. 1234 Elm Street"
+          value={streetAddress}
+          onChange={(e) => setStreetAddress(e.target.value)}
+        />
+        <label>Country:</label>
+        <input
+          type="text"
+          placeholder="e.g. United States"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+        />
+      </div>
+      {pathname.includes("account") && (
+        <button
+          type="submit"
+          className="bg-color-700 text-white w-full justify-center primary sm:hidden "
+        >
+          Save all changes
+        </button>
+      )}
+      {pathname.includes("cart") && (
+        <button
+          type="submit"
+          className="bg-color-700 text-white w-full justify-center mt-3"
+        >
+          Continue to payment
+        </button>
+      )}
     </form>
   );
 }

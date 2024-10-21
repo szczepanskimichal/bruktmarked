@@ -20,7 +20,9 @@ export default function EditableImage({ image, setImage, setFullImage }) {
         body: data,
       }).then((response) => {
         if (response.ok) {
-          return response.json().then((object) => setImage(object.links[0]));
+          return response.json().then((object) => {
+            setImage(object.links[0]);
+          });
         }
         throw new Error("Something went wrong");
       });
