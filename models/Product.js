@@ -6,7 +6,7 @@ const ProductSchema = new Schema(
     description: { type: String },
     price: { type: Number, required: true },
     images: [{ type: String }],
-    color: { type: mongoose.Types.ObjectId, ref: "Color" },
+    color: { type: String },
     size: { type: mongoose.Types.ObjectId, ref: "Size" },
     category: { type: mongoose.Types.ObjectId, ref: "Category" },
     used: { type: Boolean, required: true, default: false },

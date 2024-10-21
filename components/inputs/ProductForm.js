@@ -9,6 +9,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/dist/css/rcp.css";
+import { type } from "os";
+import style from "styled-jsx/style";
 
 export default function ProductForm({
   title: existingTitle,
@@ -89,7 +91,7 @@ export default function ProductForm({
       variants={fadeIn("up", "spring", 0.2, 1)}
       initial="hidden"
       whileInView="show"
-      className="sm:px-5 flex flex-col items-start gap-5 "
+      className="sm:px-5 flex flex-col items-start gap-5"
     >
       <div className="flex justify-center gap-10 items-start">
         <div>
@@ -115,7 +117,6 @@ export default function ProductForm({
             itemName="category"
             api="categories"
           />
-
           <ChooseAdd
             item={size}
             setItem={setSize}
@@ -140,24 +141,22 @@ export default function ProductForm({
             onChange={(e) => setPrice(e.target.value)}
           />
         </div>
-        <ImageInput images={images} setImages={setImages} />
-      </div>
-      <div className="flex flex-col items-start gap-5">
-        <label>Color</label>
-        <div className="flex gap-3">
-          <div
-            style={{ backgroundColor: color.hex }}
-            className="w-24 h-24 cursor-pointer rounded-lg border shadow-md"
-          />
-          <div className="w-[200px]">
-            <ColorPicker
-              width={200}
-              height={200}
-              color={color}
-              onChange={setColor}
-              hideInput
-              hideAlpha
+        <div className="flex flex-col items-start gap-5">
+          <ImageInput images={images} setImages={setImages} />
+          <label>Color</label>
+          <div className="flex gap-3">
+            <div
+              style={{ backgroundColor: color.hex }}
+              className="w-24 h-24 cursor-pointer rounded-lg border shadow-md"
             />
+            <div className="w-[200px]">
+              <ColorPicker
+                color={color}
+                onChange={setColor}
+                hideInput
+                hideAlpha
+              />
+            </div>
           </div>
         </div>
       </div>

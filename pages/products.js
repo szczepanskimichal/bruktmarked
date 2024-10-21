@@ -9,11 +9,15 @@ import axios from "axios";
 import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import Backdrop from "@/components/Backdrop";
+import useWishlist from "@/hooks/useWishlist";
+import Spinner from "@/components/Spinner";
 
 export default function ProductsPage({ products }) {
   const [confirm, setConfirm] = useState(false);
   const session = useSession();
   const router = useRouter();
+
+  const { wishlist, setWishlist, loading } = useWishlist();
 
   function handleAddClick() {
     if (session.status === "authenticated") {
@@ -69,23 +73,21 @@ export default function ProductsPage({ products }) {
             </button>
           </div>
           <div className="flex flex-col sm:mx-10 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-            {
-              session.status === "authenticated" &&
-                //     loading ? (
-                // 	<Spinner />
-                // ) : (
-                products?.length > 0 &&
-                products.map((product, index) => (
-                  <ProductCard
-                    key={product._id}
-                    index={index}
-                    setConfirm={() => setConfirm(product._id)}
-                    {...product}
-                  />
-                  // <div key={index}>{product.title}</div>
-                ))
-              // )
-            }
+            {session.status === "authenticated" && loading ? (
+              <Spinner />
+            ) : (
+              products?.length > 0 &&
+              products.map((product, index) => (
+                <ProductCard
+                  key={product._id}
+                  index={index}
+                  setConfirm={() => setConfirm(product._id)}
+                  wishlist={wishlist}
+                  setWishlist={setWishlist}
+                  {...product}
+                />
+              ))
+            )}
           </div>
         </div>
       </Layout>
