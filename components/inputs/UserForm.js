@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import EditableImage from "./EditableImage";
-import path from "path";
 
 export default function UserForm({ user, onSubmit, setFullImage }) {
   const [userName, setUserName] = useState(user?.name || "");
